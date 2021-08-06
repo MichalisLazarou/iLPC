@@ -1,22 +1,19 @@
-# RFS
+# iLPC
 
-Representations for Few-Shot Learning (RFS). This repo covers the implementation of the following paper:  
+This repo covers the implementation of the following paper: 
 
-**"Rethinking few-shot image classification: a good embedding is all you need?"** [Paper](https://arxiv.org/abs/2003.11539),  [Project Page](https://people.csail.mit.edu/yuewang/projects/rfs/) 
+**"Iterative label cleaning for transductive and semi-supervised few-shot learning (ICCV2021)"** [Pre-print](https://arxiv.org/abs/2012.07962),
 
-If you find this repo useful for your research, please consider citing the paper  
+If you find this repo useful for your research, please consider citing the paper
 ```
-@article{tian2020rethink,
-  title={Rethinking few-shot image classification: a good embedding is all you need?},
-  author={Tian, Yonglong and Wang, Yue and Krishnan, Dilip and Tenenbaum, Joshua B and Isola, Phillip},
-  journal={arXiv preprint arXiv:2003.11539},
-  year={2020}
+@conference{iLPC,
+   title = {Iterative label cleaning for transductive and semi-supervised few-shot learning},
+   author = {M. Lazarou and Y. Avrithis and T. Stathaki},
+   booktitle = {Proceedings of International Conference on Computer Vision (ICCV)},
+   address = {Virtual},
+   year = {2021}
 }
 ```
-
-## Installation
-
-This repo was tested with Ubuntu 16.04.5 LTS, Python 3.5, PyTorch 0.4.0, and CUDA 9.0. However, it should be compatible with recent PyTorch versions >=0.4.0
 
 ## Download Data
 The data we used here is preprocessed by the repo of [MetaOptNet](https://github.com/kjunelee/MetaOptNet), but we have
@@ -33,10 +30,17 @@ For unuspervised learning methods `CMC` and `MoCo`, please refer to the [CMC](ht
 ## Contacts
 For any questions, please contact:
 
-Yonglong Tian (yonglong@mit.edu)  
-Yue Wang (yuewang@csail.mit.edu)
+Michalis Lazarou (ml6414@ic.ac.uk)  
+Yannis Avrithis (yannis@avrithis.net)
 
 ## Acknowlegements
-Part of the code for distillation is from [RepDistiller](http://github.com/HobbitLong/RepDistiller) repo.
+[PT-MAP](https://github.com/yhu01/PT-MAP)
+
+[LR+ICI](https://github.com/Yikai-Wang/ICI-FSL)
+
+[CloserLookFewShot](https://github.com/wyharveychen/CloserLookFewShot)
+
+#[MCT](https://github.com/seongmin-kye/MCT)
+
 
 
