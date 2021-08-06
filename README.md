@@ -3,6 +3,9 @@
 This repo covers the implementation of the following paper: 
 
 **"Iterative label cleaning for transductive and semi-supervised few-shot learning (ICCV2021)"** [Pre-print](https://arxiv.org/abs/2012.07962),
+<p align='center'>
+  <img src='idea.pdf' width="800px">
+</p>
 
 If you find this repo useful for your research, please consider citing the paper
 ```
