@@ -7,6 +7,11 @@ This repo covers the implementation of the following paper:
   <img src='idea.png' width="800px">
 </p>
 
+## Abstract
+
+Few-shot learning amounts to learning representationsand acquiring knowledge such that novel tasks may be solvedwith both supervision and data being limited.   Improvedperformance is possible by transductive inference, where theentire test set is available concurrently, and semi-supervisedlearning, where more unlabeled data is available.  Theseproblems are closely related because there is little or noadaptation of the representation in novel tasks.Focusing on these two settings, we introduce a new al-gorithm  that  leverages  the  manifold  structure  of  the  la-beled  and  unlabeled  data  distribution  to  predict  pseudo-labels,  while  balancing  over  classes  and  using  the  lossvalue distribution of a limited-capacity classifier to selectthe cleanest labels, iterately improving the quality of pseudo-labels. Our solution sets new state of the art results on fourbenchmark datasets, namelyminiImageNet,tieredImageNet,CUB and CIFAR-FS, while being robust over feature spacepre-processing  and  the  quantity  of  available  data.
+
+
 If you find this repo useful for your research, please consider citing the paper
 ```
 @conference{iLPC,
@@ -17,10 +22,6 @@ If you find this repo useful for your research, please consider citing the paper
    year = {2021}
 }
 ```
-## Abstract
-
-Few-shot learning amounts to learning representationsand acquiring knowledge such that novel tasks may be solvedwith both supervision and data being limited.   Improvedperformance is possible by transductive inference, where theentire test set is available concurrently, and semi-supervisedlearning, where more unlabeled data is available.  Theseproblems are closely related because there is little or noadaptation of the representation in novel tasks.Focusing on these two settings, we introduce a new al-gorithm  that  leverages  the  manifold  structure  of  the  la-beled  and  unlabeled  data  distribution  to  predict  pseudo-labels,  while  balancing  over  classes  and  using  the  lossvalue distribution of a limited-capacity classifier to selectthe cleanest labels, iterately improving the quality of pseudo-labels. Our solution sets new state of the art results on fourbenchmark datasets, namelyminiImageNet,tieredImageNet,CUB and CIFAR-FS, while being robust over feature spacepre-processing  and  the  quantity  of  available  data.
-
 ## Running
 
 Exemplar commands for running the code can be found in `scripts/run.sh`.
@@ -32,6 +33,8 @@ For any questions, please contact:
 
 Michalis Lazarou (ml6414@ic.ac.uk)  
 Yannis Avrithis (yannis@avrithis.net)
+Tania StYannis Avrithisathaki (t.stathaki@imperial.ac.uk)
+
 
 ## Acknowlegements
 [PT-MAP](https://github.com/yhu01/PT-MAP)
@@ -41,6 +44,9 @@ Yannis Avrithis (yannis@avrithis.net)
 [CloserLookFewShot](https://github.com/wyharveychen/CloserLookFewShot)
 
 [MCT](https://github.com/seongmin-kye/MCT)
+
+[S2M2_fewshot](https://github.com/nupurkmr9/S2M2_fewshot)
+
 
 
 
