@@ -33,7 +33,7 @@ For any questions, please contact:
 
 Michalis Lazarou (ml6414@ic.ac.uk)  
 Yannis Avrithis (yannis@avrithis.net)
-Tania StYannis Avrithisathaki (t.stathaki@imperial.ac.uk)
+Tania Stathaki (t.stathaki@imperial.ac.uk)
 
 
 ## Acknowlegements
