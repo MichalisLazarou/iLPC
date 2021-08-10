@@ -22,6 +22,9 @@ If you find this repo useful for your research, please consider citing the paper
    year = {2021}
 }
 ```
+## Datasets
+We followed the instructions provided by [S2M2_fewshot](https://github.com/nupurkmr9/S2M2_fewshot) to download the datasets. All experiments use these datasets except for the experiments regarding resnet12 backbone and miniImagenet where we used the .pkl files provided from here [miniImagenet_pkl](https://drive.google.com/file/d/1fJAK5WZTjerW7EWHHQAR9pRJVNg1T1Y7/view)
+
 ## Running
 
 Exemplar commands for running the code can be found in `scripts/run.sh`.
