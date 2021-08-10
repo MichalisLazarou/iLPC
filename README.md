@@ -2,7 +2,7 @@
 
 This repo covers the implementation of the following paper: 
 
-**"Iterative label cleaning for transductive and semi-supervised few-shot learning (ICCV2021)"** [Pre-print](https://arxiv.org/abs/2012.07962),
+**"Iterative label cleaning for transductive and semi-supervised few-shot learning (ICCV 2021)"** [Pre-print](https://arxiv.org/abs/2012.07962),
 <p align='center'>
   <img src='idea.png' width="800px">
 </p>
@@ -29,7 +29,13 @@ For resnet12 experiments we used the datasets as provided by [S2M2_fewshot](http
 
 ## Running
 
-Exemplar commands for running the code can be found in `scripts/run.sh`.
+**WRN-28-10:** example to run transductive 1-shot experiments: `python transductive_wrn.py --dataset dataset --algorithm iLPC --alpha 0.8 --K 20 --n_shots 1`  
+
+**resnet12:** example to run transductive 1-shot experiments: `python transductive_resnet12.py --dataset dataset --algorithm iLPC --alpha 0.8 --K 20 --n_shots 1 --dataset pkl`
+
+for the correct hyperparameters alpha and K for every experiment check table.
+
+
 
 For unuspervised learning methods `CMC` and `MoCo`, please refer to the [CMC](http://github.com/HobbitLong/CMC) repo.
 
@@ -39,7 +45,6 @@ For any questions, please contact:
 Michalis Lazarou (ml6414@ic.ac.uk)  
 Yannis Avrithis (yannis@avrithis.net)  
 Tania Stathaki (t.stathaki@imperial.ac.uk)
-
 
 ## Acknowlegements
 [PT-MAP](https://github.com/yhu01/PT-MAP)
