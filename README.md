@@ -37,7 +37,7 @@ For unuspervised learning methods `CMC` and `MoCo`, please refer to the [CMC](ht
 For any questions, please contact:
 
 Michalis Lazarou (ml6414@ic.ac.uk)  
-Yannis Avrithis (yannis@avrithis.net)
+Yannis Avrithis (yannis@avrithis.net)  
 Tania Stathaki (t.stathaki@imperial.ac.uk)
 
 
