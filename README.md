@@ -38,6 +38,7 @@ For any questions, please contact:
 
 Michalis Lazarou (ml6414@ic.ac.uk)  
 Yannis Avrithis (yannis@avrithis.net)
+
 Tania Stathaki (t.stathaki@imperial.ac.uk)
 
 
