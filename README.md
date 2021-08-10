@@ -30,14 +30,9 @@ For resnet12 experiments we used the datasets as provided by [S2M2_fewshot](http
 ## Running
 
 **WRN-28-10:** example to run transductive 1-shot experiments: `python transductive_wrn.py --dataset dataset --algorithm iLPC --alpha 0.8 --K 20 --n_shots 1`  
-
 **resnet12:** example to run transductive 1-shot experiments: `python transductive_resnet12.py --dataset dataset --algorithm iLPC --alpha 0.8 --K 20 --n_shots 1 --dataset pkl`
 
-for the correct hyperparameters alpha and K for every experiment check table.
-
-
-
-For unuspervised learning methods `CMC` and `MoCo`, please refer to the [CMC](http://github.com/HobbitLong/CMC) repo.
+for the correct hyperparameters alpha and K for every experiment check table 11.
 
 ## Contacts
 For any questions, please contact:
