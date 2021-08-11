@@ -310,36 +310,32 @@ if __name__ == '__main__':
     ndatas_icp = ndatas
     ndatas = scaleEachUnitaryDatas(ndatas)
     ndatas = centerDatas(ndatas)
-    # trans-mean-sub
 
     print("size of the datas...", ndatas.size())
-    # ndatas =torch.unsqueeze(ndatas[10], 0)
-    # labels = torch.unsqueeze(labels[10], 0)
-    # n_runs=1
 
-    #switch to cuda
-    ndatas = ndatas.cpu()
-    labels = labels.cpu()
-    #MAP
-    lam = 10
-    model = GaussianModel(n_ways, lam)
-    model.initFromLabelledDatas()
+    if params.algorithm =='ptmap':
+        ndatas = ndatas.cpu()
+        labels = labels.cpu()
+        lam = 10
+        model = GaussianModel(n_ways, lam)
+        model.initFromLabelledDatas()
 
-    alpha = 0.2
-    optim = MAP(alpha)
+        alpha = 0.2
+        optim = MAP(alpha)
 
-    optim.verbose=False
-    optim.progressBar=True
+        optim.verbose=False
+        optim.progressBar=True
 
-    acc_test = optim.loop(model, n_epochs=20)
-    ndatas = ndatas.cpu()
-    labels = labels.cpu()
-    ndatas_icp = ndatas_icp.cpu()
-    acc_ici, acc_std_ici = trans_ici(params, ndatas, labels, n_lsamples)
-    acc_mine, acc_std = trans_ilpc(params, ndatas, labels, n_lsamples)
-    print('DATASET: {}, final accuracy ici: {:0.2f} +- {:0.2f}, shots: {}, queries: {}'.format(dataset, acc_ici * 100, acc_std_ici * 100, n_shot, n_queries))
-    print("final accuracy PT-MAP: {:0.2f} +- {:0.2f}".format(*(100 * x for x in acc_test)))
-    print('DATASET: {}, final accuracy ilpc: {:0.2f} +- {:0.2f}, shots: {}, queries: {}'.format(dataset, acc_mine * 100,acc_std * 100, n_shot, n_queries))
-    
+        acc_test = optim.loop(model, n_epochs=20)
+        print("final accuracy PT-MAP: {:0.2f} +- {:0.2f}".format(*(100 * x for x in acc_test)))
+    elif params.algorithm == 'ilpc':
+        acc_mine, acc_std = trans_ilpc(params, ndatas, labels, n_lsamples)
+        print('DATASET: {}, final accuracy ilpc: {:0.2f} +- {:0.2f}, shots: {}, queries: {}'.format(dataset, acc_mine * 100,acc_std * 100, n_shot,n_queries))
+    elif params.algorithm =='ici':
+        ndatas_icp = ndatas_icp.cpu()
+        acc_ici, acc_std_ici = trans_ici(params, ndatas, labels, n_lsamples)
+        print('DATASET: {}, final accuracy ici: {:0.2f} +- {:0.2f}, shots: {}, queries: {}'.format(dataset, acc_ici * 100, acc_std_ici * 100, n_shot, n_queries))
+    else:
+        print('Algorithm not supported!')
     
 

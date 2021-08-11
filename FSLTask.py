@@ -6,10 +6,10 @@ import torch
 
 # ========================================================
 #   Usefull paths
-_datasetFeaturesFiles = {"miniimagenet": "./checkpoints/miniImagenet/WideResNet28_10_S2M2_R/last/output.plk",
+_datasetFeaturesFiles = {"miniImagenet": "./checkpoints/miniImagenet/WideResNet28_10_S2M2_R/last/output.plk",
                          "CUB": "./checkpoints/CUB/WideResNet28_10_S2M2_R/last/output.plk",
                          "cifar": "./checkpoints/cifar/WideResNet28_10_S2M2_R/last/output.plk",
-                         "tieredimagenet": "./checkpoints/tieredImagenet/WideResNet28_10_S2M2_R/last/output.plk"}
+                         "tieredImagenet": "./checkpoints/tieredImagenet/WideResNet28_10_S2M2_R/last/output.plk"}
 
 _cacheDir = "./cache"
 _maxRuns = 1000

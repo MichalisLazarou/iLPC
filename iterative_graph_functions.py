@@ -5,6 +5,8 @@ import torch.nn as nn
 import torch.optim as optim
 import numpy as np
 from sklearn import metrics
+import os
+import glob
 from PIL import Image
 import torchvision.transforms as transforms
 from torch.utils.data import TensorDataset, DataLoader
@@ -382,17 +384,6 @@ def iter_balanced_trans(opt, support_features, support_ys, query_features, query
         query_ys_pred, probs, weights = update_plabels(opt, support_features, support_ys, query_features)
         P, query_ys_pred, indices = compute_optimal_transport(opt, torch.Tensor(probs), weights=torch.tensor(weights))
 
-        # ----------------------------------------TEST WITHOUT THE BALANCING TERM--------------------------------------
-        # r = torch.ones(1, probs.shape[0])
-        # P = torch.unsqueeze(torch.Tensor(probs), dim=0)
-        # n_runs, n, m = P.shape
-        # #P = torch.exp( 2* P)
-        # P = torch.pow(P, 3)
-        # u = P.sum(2)
-        # P *= (r / u).view((n_runs, -1, 1))
-        # query_ys_pred = np.argmax(torch.squeeze(P).detach().cpu().numpy(), 1)
-        #--------------------------------------------------------------------------------------------------------------
-
         loss_statistics, _ = label_denoising(opt, support_features, support_ys, query_features, query_ys_pred, weights=torch.tensor(weights))
 
         un_loss_statistics = loss_statistics[support_ys.shape[0]:].detach().numpy()#np.amax(P, 1) #
@@ -500,13 +491,27 @@ def step_adapt(params, model, classifier, support_xs, support_ys, query_xs, quer
         loss.backward()
         optimizer.step()
     #-----------------------------here take a tab back-------------------------------------
-    support_f = me.im2features(support_xs, torch.Tensor(support_ys), model, map='mi').cpu()
-    query_f = me.im2features(query_xs, torch.Tensor(query_ys), model, map='mi').cpu()
+    support_f = im2features(support_xs, torch.Tensor(support_ys), model, map='mi').cpu()
+    query_f = im2features(query_xs, torch.Tensor(query_ys), model, map='mi').cpu()
     if params.use_pt =='pt_transform':
         support_f, query_f = pt_map_preprocess(support_f, query_f, params.beta_pt)
         support_f, query_f = support_f.detach().cpu().numpy(), query_f.detach().cpu().numpy()
     return support_f, query_f
     return support_features.detach().cpu().numpy(), query_features.detach().cpu().numpy()
+
+def im2features(X,Y, model):
+    dataset = TensorDataset(X, Y)
+    loader = DataLoader(dataset, batch_size=8, num_workers=2, pin_memory=False)
+    tensor_list = []
+    for batch_ndx, sample in enumerate(loader):
+        x, _ = sample
+        x = x.cuda()
+        feat_support, _ = model(x)
+        support_features = feat_support
+        tensor_list.append(support_features.detach())
+        torch.cuda.empty_cache()
+    features = torch.cat(tensor_list, 0)
+    return features
 
 
 def pt_map_preprocess(support, query, beta):
@@ -610,8 +615,8 @@ def init_ft(params, model, support_features, query_features, support_xs, support
         loss.backward()
         optimizer.step()
     #-----------------------------here take a tab back-------------------------------------
-    support_f = me.im2features(support_xs, torch.Tensor(support_ys), model, map='mi').cpu()
-    query_f = me.im2features(query_xs, torch.Tensor(query_ys), model, map='mi').cpu()
+    support_f = im2features(support_xs, torch.Tensor(support_ys), model, map='mi').cpu()
+    query_f = im2features(query_xs, torch.Tensor(query_ys), model, map='mi').cpu()
     if params.use_pt =='pt_transform':
         support_f, query_f = pt_map_preprocess(support_f, query_f, params.beta_pt)
         support_f, query_f = support_f.detach().cpu().numpy(), query_f.detach().cpu().numpy()
@@ -624,7 +629,7 @@ def init_sup_ft(params, model, support_features, query_features, support_xs, sup
 
     data_loader = DataLoader(TensorDataset(X, Y), batch_size=15, num_workers=0, pin_memory=False)
     classifier = torch.nn.Linear(support_features.shape[1], support_ys.max() + 1)
-    classifier = mm_tools.weight_imprinting(torch.tensor(support_features), torch.tensor(support_ys),classifier).cuda()
+    classifier = weight_imprinting(torch.tensor(support_features), torch.tensor(support_ys),classifier).cuda()
     model_params = list(classifier.parameters()) + list(model.parameters())
     optimizer = optim.Adam(model_params, lr=params.lr, weight_decay=0.0005)
     criterion = nn.CrossEntropyLoss()
@@ -647,8 +652,8 @@ def init_sup_ft(params, model, support_features, query_features, support_xs, sup
         loss.backward()
         optimizer.step()
         #---------------here take a tab back--------------------
-    support_f = me.im2features(support_xs, torch.Tensor(support_ys), model, map='mi').cpu()
-    query_f = me.im2features(query_xs, torch.Tensor(query_ys), model, map='mi').cpu()
+    support_f = im2features(support_xs, torch.Tensor(support_ys), model, map='mi').cpu()
+    query_f = im2features(query_xs, torch.Tensor(query_ys), model, map='mi').cpu()
     support_f, query_f = pt_map_preprocess(support_f, query_f, params.beta_pt)
     support_f, query_f = support_f.detach().cpu().numpy(), query_f.detach().cpu().numpy()
     return support_f, query_f
@@ -665,20 +670,6 @@ def preprocess_e2e(X, beta, params):
     X = scaleEachUnitaryDatas(X)
     X = centerDatas(X)
     X = torch.squeeze(X)
-
-
-    # if params.reduce == 'pca':
-    #     # from sklearn.decomposition import PCA
-    #     # embed = PCA(n_components=params.d, whiten=True)
-    #     # X = torch.Tensor(embed.fit_transform(X.detach().cpu().numpy()).astype((np.float32)))
-    #     u, s, v = torch.svd(X)
-    #     #X = torch.mm(X)
-    #     #print(u.shape, s.shape, v.shape)
-    #     X = torch.mm(X, v[:,:params.d])
-    #     #print(X.shape, v.shape, u.shape)
-    #     #for i in range(X.shape[0]):
-    #      #   X[i,:] = X[i,:]*(1/s[i])#(torch.sqrt(s[i])+0.00001))
-    #     return u
     return X
 
 
@@ -714,10 +705,17 @@ def augment_examples(params, X, Y, transform_function):
     #print(support_xs.shape, support_ys.shape)
     return support_xs, support_ys
 
+class WrappedModel(nn.Module):
+    def __init__(self, module):
+        super(WrappedModel, self).__init__()
+        self.module = module
+    def forward(self, x):
+        return self.module(x)
+
 def load_pt_pretrained(params, model):
     model = model.to(params.device)
     cudnn.benchmark = True
-    modelfile = tlc.get_resume_file(params.checkpoint_dir)
+    modelfile = get_resume_file(params.checkpoint_dir)
     checkpoint = torch.load(modelfile)
     state = checkpoint['state']
     if params.dataset == 'tieredImagenet':
@@ -732,12 +730,22 @@ def load_pt_pretrained(params, model):
             callwrap = True
             params.wrap_flag = 1
         if callwrap:
-            model = tlc.WrappedModel(model)
+            model = WrappedModel(model)
     model_dict_load = model.state_dict()
     model_dict_load.update(state)
     model.load_state_dict(model_dict_load)
     return model
 
+def get_resume_file(checkpoint_dir):
+    filelist = glob.glob(os.path.join(checkpoint_dir, '*.tar'))
+    if len(filelist) == 0:
+        return None
+
+    filelist =  [ x  for x in filelist if os.path.basename(x) != 'best.tar' ]
+    epochs = np.array([int(os.path.splitext(os.path.basename(x))[0]) for x in filelist])
+    max_epoch = np.max(epochs)
+    resume_file = os.path.join(checkpoint_dir, '{:d}.tar'.format(max_epoch))
+    return resume_file
 
 def load_ici_pretrained(params, model):
     filename = "ici_models/"
