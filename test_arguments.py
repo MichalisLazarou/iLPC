@@ -22,7 +22,7 @@ def parse_option():
     # dataset
     parser.add_argument('--dataset', type=str, default='miniImagenet', choices=['miniImagenet', 'tieredImagenet', 'cifar', 'CUB'])
     parser.add_argument('--transform', type=str, default='A', choices=transforms_list)
-    parser.add_argument('--which_dataset', type=str, default='images', choices=['images', 'pkl'])
+    parser.add_argument('--which_dataset', type=str, default='pkl', choices=['images', 'pkl'])
 
     # specify data_root
     parser.add_argument('--data_root', type=str, default='', help='path to data root')
@@ -40,11 +40,11 @@ def parse_option():
     #parser.add_argument('--test_batch_size', type=int, default=1, metavar='test_batch_size', help='Size of test batch)')
 
     # algorithm parameter settings
-    parser.add_argument('--reduce', type=str, default='none', choices=['isomap', 'itsa', 'mds', 'lle', 'se', 'pca', 'none'])
+    parser.add_argument('--reduce', type=str, default='pca', choices=['isomap', 'itsa', 'mds', 'lle', 'se', 'pca', 'none'])
     parser.add_argument('--inference_semi', type=str, default='inductive_sk', choices=['transductive', 'inductive', 'inductive_sk'])
     parser.add_argument('--d', type=int, default=5, metavar='d', help='dimension of dimensionality reduction algorithm')
     parser.add_argument('--alpha', type=float, default=0.8, metavar='N', help='alpha used in graph diffusion')
-    parser.add_argument('--K', type=int, default=15, metavar='N', help='Nearest neighbours to used in the Manifold creation')
+    parser.add_argument('--K', type=int, default=20, metavar='N', help='Nearest neighbours to used in the Manifold creation')
     parser.add_argument('--T', type=float, default=3, metavar='N', help='power to raise probs matrix before sinkhorn algorithm')
     parser.add_argument('--lr', type=float, default=0.00001, metavar='N', help='learning rate of fine-tuning')
     parser.add_argument('--denoising_iterations', type=int, default=1000, metavar='N', help='denoising steps')

@@ -1,6 +1,7 @@
 #import numpy as np
 from scipy.stats import t
 #from tqdm import tqdm
+from sklearn.linear_model import LogisticRegression
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
@@ -142,7 +143,7 @@ def weight_imprinting(X, Y, model):
     model.weight.data = imprinted
     return model
 
-def label_denoising(opt, support, support_ys, query, query_ys_pred, weights):
+def label_denoising(opt, support, support_ys, query, query_ys_pred):
     all_embeddings = np.concatenate((support, query), axis=0)
     input_size = all_embeddings.shape[1]
     X = torch.tensor(all_embeddings, dtype=torch.float32, requires_grad=True)
@@ -258,7 +259,7 @@ def model_last_block(params, model):
         model_params = list(model.layer4.parameters())
     return model_params
 
-def compute_optimal_transport(opt, M, epsilon=1e-6, weights=0):
+def compute_optimal_transport(opt, M, epsilon=1e-6):
     #r is the P we discussed r.shape = n_runs x total_queries, all entries = 1
     r = torch.ones(1, M.shape[0])
     #r = r * weights
@@ -344,7 +345,7 @@ def iter_balanced(opt, support_features, support_ys, query_features, query_ys, l
         indices_pre, ys = rank_per_class(support_ys.max() + 1, rank, query_ys_pred, 30)
         #-----------------------------------------------------------------------------------------------------------
 
-        P, query_ys_pred, indices = compute_optimal_transport(opt, torch.Tensor(probs), weights=torch.tensor(weights))
+        P, query_ys_pred, indices = compute_optimal_transport(opt, torch.Tensor(probs))
         loss_statistics, _ = label_denoising(opt, support_features, support_ys, query_features[indices_pre], query_ys_pred[indices_pre], weights=torch.tensor(weights))
         #loss_statistics, _ = label_denoising(opt, support_features, support_ys, query_features, query_ys_pred, weights=torch.tensor(weights))
 
@@ -380,11 +381,15 @@ def iter_balanced_trans(opt, support_features, support_ys, query_features, query
     query_ys_updated = query_ys
     total_f = support_ys.shape[0] +query_ys.shape[0]
     iterations =int(query_ys.shape[0])# int(opt.n_ways*opt.best_samples) #query_ys.shape[0]#
+    #clf = LogisticRegression(random_state=0, solver='lbfgs', max_iter=1000, multi_class='multinomial')
+    #clf = LogisticRegression(C=10, multi_class='auto', solver='lbfgs', max_iter=1000)
     for j in range(iterations):
+        # clf.fit(support_features, support_ys)
+        # probs = clf.predict_proba(query_features)
         query_ys_pred, probs, weights = update_plabels(opt, support_features, support_ys, query_features)
-        P, query_ys_pred, indices = compute_optimal_transport(opt, torch.Tensor(probs), weights=torch.tensor(weights))
+        #P, query_ys_pred, indices = compute_optimal_transport(opt, torch.Tensor(probs))
 
-        loss_statistics, _ = label_denoising(opt, support_features, support_ys, query_features, query_ys_pred, weights=torch.tensor(weights))
+        loss_statistics, _ = label_denoising(opt, support_features, support_ys, query_features, query_ys_pred)
 
         un_loss_statistics = loss_statistics[support_ys.shape[0]:].detach().numpy()#np.amax(P, 1) #
         un_loss_statistics = un_loss_statistics#*weights

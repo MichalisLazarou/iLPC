@@ -269,7 +269,7 @@ def semi_ilpc(opt, X, Y, q, q_ys, labelled_samples):
         labelled_samples = support_features.shape[0]
 
         opt.no_samples = np.array(np.repeat(float(unlabelled_ys.shape[0] / opt.n_ways), opt.n_ways))
-        support_ys, support_features = igf.iter_balanced(opt, support_features, support_ys, unlabelled_features, unlabelled_ys, labelled_samples)
+        support_ys, support_features = igf.iter_balanced_trans(opt, support_features, support_ys, unlabelled_features, unlabelled_ys, labelled_samples)
         if opt.distractor == True:
             keep = 0.8
             support_features = support_features[:int((opt.n_shots*opt.n_ways+opt.n_unlabelled*opt.n_ways)*keep)]

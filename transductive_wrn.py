@@ -13,6 +13,7 @@ import math
 import torch.nn.functional as F
 import torch.optim as optim
 from numpy import linalg as LA
+from sklearn.linear_model import LogisticRegression
 from tqdm.notebook import tqdm
 from test_arguments import parse_option
 import iterative_graph_functions as igf
@@ -240,7 +241,13 @@ def trans_ilpc(opt, X, Y, labelled_samples):
         else:
             opt.no_samples = np.array(np.repeat(float(query_ys.shape[0]/opt.n_ways),opt.n_ways))
 
+        #query_ys_pred, probs, _ = igf.update_plabels(opt, support_features, support_ys, query_features)
+        #P, query_ys_pred, indices = igf.compute_optimal_transport(opt, torch.Tensor(probs))
         query_ys, query_ys_pred = igf.iter_balanced_trans(opt, support_features, support_ys, query_features, query_ys, labelled_samples)
+        #clf = LogisticRegression(random_state=0, solver='lbfgs', max_iter=1000, multi_class='multinomial')
+        #clf = LogisticRegression(C=10, multi_class='auto', solver='lbfgs', max_iter=1000)
+        #clf.fit(support_features, support_ys)
+        #query_ys_pred = clf.predict(query_features)
         acc.append(metrics.accuracy_score(query_ys, query_ys_pred))
 
     return mean_confidence_interval(acc)
@@ -310,12 +317,12 @@ if __name__ == '__main__':
     ndatas_icp = ndatas
     ndatas = scaleEachUnitaryDatas(ndatas)
     ndatas = centerDatas(ndatas)
+    #ndatas = ndatas.cpu()
+    #labels = labels.cpu()
 
     print("size of the datas...", ndatas.size())
 
     if params.algorithm =='ptmap':
-        ndatas = ndatas.cpu()
-        labels = labels.cpu()
         lam = 10
         model = GaussianModel(n_ways, lam)
         model.initFromLabelledDatas()
