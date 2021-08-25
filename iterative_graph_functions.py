@@ -387,13 +387,14 @@ def iter_balanced_trans(opt, support_features, support_ys, query_features, query
         # clf.fit(support_features, support_ys)
         # probs = clf.predict_proba(query_features)
         query_ys_pred, probs, weights = update_plabels(opt, support_features, support_ys, query_features)
-        #P, query_ys_pred, indices = compute_optimal_transport(opt, torch.Tensor(probs))
+        P, query_ys_pred, indices = compute_optimal_transport(opt, torch.Tensor(probs))
 
         loss_statistics, _ = label_denoising(opt, support_features, support_ys, query_features, query_ys_pred)
-
         un_loss_statistics = loss_statistics[support_ys.shape[0]:].detach().numpy()#np.amax(P, 1) #
-        un_loss_statistics = un_loss_statistics#*weights
         rank = sp.stats.rankdata(un_loss_statistics, method='ordinal')
+
+        #rank = sp.stats.rankdata(weights, method='ordinal')
+
         indices, ys = rank_per_class(support_ys.max() + 1, rank, query_ys_pred, opt.best_samples)
         if len(indices)<5:
             break;
