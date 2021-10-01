@@ -346,7 +346,7 @@ def iter_balanced(opt, support_features, support_ys, query_features, query_ys, l
         #-----------------------------------------------------------------------------------------------------------
 
         P, query_ys_pred, indices = compute_optimal_transport(opt, torch.Tensor(probs))
-        loss_statistics, _ = label_denoising(opt, support_features, support_ys, query_features[indices_pre], query_ys_pred[indices_pre], weights=torch.tensor(weights))
+        loss_statistics, _ = label_denoising(opt, support_features, support_ys, query_features[indices_pre], query_ys_pred[indices_pre])
         #loss_statistics, _ = label_denoising(opt, support_features, support_ys, query_features, query_ys_pred, weights=torch.tensor(weights))
 
         un_loss_statistics = loss_statistics[support_ys.shape[0]:].detach().numpy()#np.amax(P, 1) #
@@ -503,7 +503,7 @@ def step_adapt(params, model, classifier, support_xs, support_ys, query_xs, quer
         support_f, query_f = pt_map_preprocess(support_f, query_f, params.beta_pt)
         support_f, query_f = support_f.detach().cpu().numpy(), query_f.detach().cpu().numpy()
     return support_f, query_f
-    return support_features.detach().cpu().numpy(), query_features.detach().cpu().numpy()
+    #return support_features.detach().cpu().numpy(), query_features.detach().cpu().numpy()
 
 def im2features(X,Y, model):
     dataset = TensorDataset(X, Y)

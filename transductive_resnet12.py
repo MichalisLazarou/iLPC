@@ -81,6 +81,7 @@ def few_shot_test(opt, model, testloader):
             query_ys, query_ys_pred = ici_test(opt, model, data, ici)
         else:
             print("This algorithm is not available in this experiment")
+            break;
         acc.append(metrics.accuracy_score(query_ys, query_ys_pred))
     return mean_confidence_interval(acc)
 

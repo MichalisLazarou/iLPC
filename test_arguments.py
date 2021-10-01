@@ -20,15 +20,15 @@ def parse_option():
     #parser.add_argument('--model_path', type=str, default='/home/michalislazarou/PhD/rfs_baseline/models/pretrained/S:resnet12_T:resnet12_miniImageNet_kd_r:0.5_a:0.5_b:0_trans_A_student1/resnet12_last.pth', help='absolute path to .pth model')
 
     # dataset
-    parser.add_argument('--dataset', type=str, default='miniImagenet', choices=['miniImagenet', 'tieredImagenet', 'cifar', 'CUB'])
+    parser.add_argument('--dataset', type=str, default='tieredImagenet', choices=['miniImagenet', 'tieredImagenet', 'cifar', 'CUB'])
     parser.add_argument('--transform', type=str, default='A', choices=transforms_list)
-    parser.add_argument('--which_dataset', type=str, default='pkl', choices=['images', 'pkl'])
+    parser.add_argument('--which_dataset', type=str, default='images', choices=['images', 'pkl'])
 
     # specify data_root
     parser.add_argument('--data_root', type=str, default='', help='path to data root')
 
     # meta setting
-    parser.add_argument('--n_test_runs', type=int, default=1000, metavar='N', help='Number of test runs')
+    parser.add_argument('--n_test_runs', type=int, default=200, metavar='N', help='Number of test runs')
     parser.add_argument('--n_ways', type=int, default=5, metavar='N', help='Number of classes for doing each classification run')
     parser.add_argument('--n_shots', type=int, default=1, metavar='N', help='Number of shots in test')
     parser.add_argument('--n_queries', type=int, default=15, metavar='N', help='Number of query in test')
@@ -36,11 +36,10 @@ def parse_option():
     parser.add_argument('--n_aug_support_samples', default=0, type=int, help='The number of augmented samples for each meta test sample')
     parser.add_argument('--num_workers', type=int, default=1, metavar='N', help='Number of workers for dataloader')
     parser.add_argument('--unbalanced', type=bool, default=False, metavar='bool', help='Number of workers for dataloader')
-    parser.add_argument('--distractor', type=bool, default=False, metavar='bool', help='Number of workers for dataloader')
     #parser.add_argument('--test_batch_size', type=int, default=1, metavar='test_batch_size', help='Size of test batch)')
 
     # algorithm parameter settings
-    parser.add_argument('--reduce', type=str, default='pca', choices=['isomap', 'itsa', 'mds', 'lle', 'se', 'pca', 'none'])
+    parser.add_argument('--reduce', type=str, default='none', choices=['isomap', 'itsa', 'mds', 'lle', 'se', 'pca', 'none'])
     parser.add_argument('--inference_semi', type=str, default='inductive_sk', choices=['transductive', 'inductive', 'inductive_sk'])
     parser.add_argument('--d', type=int, default=5, metavar='d', help='dimension of dimensionality reduction algorithm')
     parser.add_argument('--alpha', type=float, default=0.8, metavar='N', help='alpha used in graph diffusion')
@@ -52,7 +51,7 @@ def parse_option():
     parser.add_argument('--best_samples', type=int, default=3, metavar='N', help='number of best samples per class chosen for pseudolabels')
     parser.add_argument('--semi_inference_method', type=str, default='inductive', choices=['transductive', 'inductive'])
     parser.add_argument('--sinkhorn_iter', type=int, default=1, metavar='N', help='sinkhorn iteration in optimal transport')
-    parser.add_argument('--use_pt', type=str, default='no_pt_transform', choices=['pt_transform', 'no_pt_transform'])
+    parser.add_argument('--use_pt', type=str, default='pt_transform', choices=['pt_transform', 'no_pt_transform'])
 
     opt = parser.parse_args()
 
