@@ -24,7 +24,7 @@ class ICI(object):
         self.support_X = self.norm(X)
         self.support_y = y
 
-    def predict(self, X, unlabel_X=None, show_detail=False, query_y=None):
+    def predict(self, X, unlabel_X=None, show_detail=False, query_y=None, augmented_sup = False):
         support_X, support_y = self.support_X, self.support_y
         way, num_support = self.num_class, len(support_X)
         query_X = self.norm(X)
@@ -67,7 +67,54 @@ class ICI(object):
         if show_detail:
             acc_list.append(np.mean(predicts == query_y))
             return acc_list
+        if augmented_sup:
+            return embeddings[support_set], y[support_set]
         return predicts
+
+    # def predict(self, X, unlabel_X=None, show_detail=False, query_y=None):
+    #     support_X, support_y = self.support_X, self.support_y
+    #     way, num_support = self.num_class, len(support_X)
+    #     query_X = self.norm(X)
+    #     if unlabel_X is None:
+    #         unlabel_X = query_X
+    #     else:
+    #         unlabel_X = self.norm(unlabel_X)
+    #     num_unlabel = unlabel_X.shape[0]
+    #     assert self.support_X is not None
+    #     embeddings = np.concatenate([support_X, unlabel_X])
+    #     X = self.embed(embeddings)
+    #     H = np.dot(np.dot(X, np.linalg.inv(np.dot(X.T, X))), X.T)
+    #     X_hat = np.eye(H.shape[0]) - H
+    #     if self.max_iter == 'auto':
+    #         # set a big number
+    #         self.max_iter = num_support + num_unlabel
+    #     elif self.max_iter == 'fix':
+    #         self.max_iter = math.ceil(num_unlabel/self.step)
+    #     else:
+    #         assert float(self.max_iter).is_integer()
+    #     support_set = np.arange(num_support).tolist()
+    #     self.classifier.fit(self.support_X, self.support_y)
+    #     if show_detail:
+    #         acc_list = []
+    #     for _ in range(self.max_iter):
+    #         if show_detail:
+    #             predicts = self.classifier.predict(query_X)
+    #             acc_list.append(np.mean(predicts == query_y))
+    #         pseudo_y = self.classifier.predict(unlabel_X)
+    #         y = np.concatenate([support_y, pseudo_y])
+    #         Y = self.label2onehot(y, way)
+    #         y_hat = np.dot(X_hat, Y)
+    #         support_set = self.expand(support_set, X_hat, y_hat, way, num_support, pseudo_y,
+    #                                   embeddings, y)
+    #         y = np.argmax(Y, axis=1)
+    #         self.classifier.fit(embeddings[support_set], y[support_set])
+    #         if len(support_set) == len(embeddings):
+    #             break
+    #     predicts = self.classifier.predict(query_X)
+    #     if show_detail:
+    #         acc_list.append(np.mean(predicts == query_y))
+    #         return acc_list
+    #     return predicts
 
 
     def expand(self, support_set, X_hat, y_hat, way, num_support, pseudo_y, embeddings, targets):
