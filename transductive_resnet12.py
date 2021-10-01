@@ -77,7 +77,7 @@ def few_shot_test(opt, model, testloader):
         if opt.algorithm == 'ilpc':
             query_ys, query_ys_pred = finetuning(opt, model, data)
         elif opt.algorithm =='ici':
-            ici = ICI(classifier='lr', num_class=opt.n_ways, step=3, reduce=opt.reduce, d=opt.d)
+            ici = ICI(classifier='lr', num_class=opt.n_ways, step=3, reduce='pca', d=opt.d)
             query_ys, query_ys_pred = ici_test(opt, model, data, ici)
         else:
             print("This algorithm is not available in this experiment")
@@ -112,9 +112,9 @@ def finetuning(params, model, data):
         params.no_samples = np.array(np.repeat(float(query_ys.shape[0] / params.n_ways), params.n_ways))
 
         if params.model == 'WideResNet28_10':
-            if params.use_pt =='pt_transform':
-                X = igf.preprocess_e2e(torch.cat((support_features, query_features), dim=0), params.beta_pt, params)
-                support_features, query_features = X[:support_features.shape[0]], X[support_features.shape[0]:]
+            #if params.use_pt =='pt_transform':
+            X = igf.preprocess_e2e(torch.cat((support_features, query_features), dim=0), params.beta_pt, params)
+            support_features, query_features = X[:support_features.shape[0]], X[support_features.shape[0]:]
 
     support_features = support_features.detach().cpu().numpy()
     query_features = query_features.detach().cpu().numpy()
