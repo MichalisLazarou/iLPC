@@ -9,26 +9,24 @@ def parse_option():
     parser = argparse.ArgumentParser('argument for training')
 
     # load pretrained model
-    parser.add_argument('--algorithm', type=str, default='ilpc', choices=['ptmap', 'ici', 'ilpc'], help = 'ptmap cannot be used when the complete backbone is used')
-    parser.add_argument('--model', type=str, default='resnet12', choices=['WideResNet28_10', 'resnet12', 'resnet12_rfs'])
+    parser.add_argument('--algorithm', type=str, default='ici', choices=['ptmap', 'ici', 'ilpc'], help = 'ptmap cannot be used when the complete backbone is used')
+    parser.add_argument('--model', type=str, default='resnet12', choices=['WideResNet28_10', 'resnet12'])
     parser.add_argument('--training_method', type=str, default='S2M2_R',   help='rotation/S2M2_R')
     parser.add_argument('--save_dir', type=str, default='.', help='rotation/S2M2_R')
     parser.add_argument('--data_dir', type=str, default='', help = 'folder where datasets are stored (tieredImagenet)')
     parser.add_argument('--device', type=str, default='cuda', choices=['cuda', 'cpu'])
     parser.add_argument('--wrap_flag', type=int, default=0, metavar='N', help='make sure that you wrap the model only once')
 
-    #parser.add_argument('--model_path', type=str, default='/home/michalislazarou/PhD/rfs_baseline/models/pretrained/S:resnet12_T:resnet12_miniImageNet_kd_r:0.5_a:0.5_b:0_trans_A_student1/resnet12_last.pth', help='absolute path to .pth model')
-
     # dataset
-    parser.add_argument('--dataset', type=str, default='miniImagenet', choices=['miniImagenet', 'tieredImagenet', 'cifar', 'CUB'])
+    parser.add_argument('--dataset', type=str, default='tieredImagenet', choices=['miniImagenet', 'tieredImagenet', 'cifar', 'CUB'])
     parser.add_argument('--transform', type=str, default='A', choices=transforms_list)
-    parser.add_argument('--which_dataset', type=str, default='pkl', choices=['images', 'pkl'])
+    parser.add_argument('--which_dataset', type=str, default='images', choices=['images', 'pkl'])
 
     # specify data_root
     parser.add_argument('--data_root', type=str, default='', help='path to data root')
 
     # meta setting
-    parser.add_argument('--n_test_runs', type=int, default=100, metavar='N', help='Number of test runs')
+    parser.add_argument('--n_test_runs', type=int, default=1000, metavar='N', help='Number of test runs')
     parser.add_argument('--n_ways', type=int, default=5, metavar='N', help='Number of classes for doing each classification run')
     parser.add_argument('--n_shots', type=int, default=1, metavar='N', help='Number of shots in test')
     parser.add_argument('--n_queries', type=int, default=15, metavar='N', help='Number of query in test')
@@ -36,7 +34,6 @@ def parse_option():
     parser.add_argument('--n_aug_support_samples', default=0, type=int, help='The number of augmented samples for each meta test sample')
     parser.add_argument('--num_workers', type=int, default=1, metavar='N', help='Number of workers for dataloader')
     parser.add_argument('--unbalanced', type=bool, default=False, metavar='bool', help='Number of workers for dataloader')
-    #parser.add_argument('--test_batch_size', type=int, default=1, metavar='test_batch_size', help='Size of test batch)')
 
     # algorithm parameter settings
     parser.add_argument('--reduce', type=str, default='none', choices=['isomap', 'itsa', 'mds', 'lle', 'se', 'pca', 'none'])
