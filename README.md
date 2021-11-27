@@ -42,7 +42,7 @@ WRN-28-10 experiments support all 3 algorithms iLPC,PT-MAP and LR+ICI, resnet12 
 For any questions, please contact:
 
 Michalis Lazarou (ml6414@ic.ac.uk)  
-Tania Stathaki (t.stathaki@imperial.ac.uk) 
+Tania Stathaki (t.stathaki@imperial.ac.uk)  
 Yannis Avrithis (yannis@avrithis.net)
 
 
