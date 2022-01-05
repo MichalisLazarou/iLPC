@@ -2,7 +2,7 @@
 
 This repo covers the implementation of the following paper: 
 
-**"Iterative label cleaning for transductive and semi-supervised few-shot learning (ICCV 2021)"** [Pre-print](https://arxiv.org/abs/2012.07962),
+**"Iterative label cleaning for transductive and semi-supervised few-shot learning (ICCV 2021)"** [Pre-print](https://arxiv.org/abs/2012.07962), [Paper](https://openaccess.thecvf.com/content/ICCV2021/html/Lazarou_Iterative_Label_Cleaning_for_Transductive_and_Semi-Supervised_Few-Shot_Learning_ICCV_2021_paper.html)
 <p align='center'>
   <img src='idea.png' width="800px">
 </p>
