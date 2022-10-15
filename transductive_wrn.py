@@ -98,8 +98,9 @@ class GaussianModel(Model):
         # adding up all the distances of  all the queries to every class center
         # and divide each component of P matrix with it, why??? is it to make it into probability
         #distribution
+        # P = F.normalize(P, dim=2)
         P /= P.view((n_runs, -1)).sum(1).unsqueeze(1).unsqueeze(1)
-        #print(P.view((n_runs, -1)).shape)
+        # print(P.shape)
         u = torch.zeros(n_runs, n).cpu()
         maxiters = 1000
         iters = 1
@@ -107,17 +108,11 @@ class GaussianModel(Model):
         while torch.max(torch.abs(u - P.sum(2))) > epsilon:
            # print(r.shape, c.shape, u.shape, P.sum(1).shape, P.sum(2).shape)
             u = P.sum(2)
-            #print(u[0])
-            #print(r[0])
-            #print(c[0])
             P *= (r / u).view((n_runs, -1, 1))
             P *= (c / P.sum(1)).view((n_runs, 1, -1))
             if iters == maxiters:
                 break
             iters = iters + 1
-
-        #u = P.sum(2)
-        #P *= (r / u).view((n_runs, -1, 1))
         return P, torch.sum(P * M)
     
     def getProbas(self):
