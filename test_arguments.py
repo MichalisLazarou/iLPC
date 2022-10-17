@@ -9,7 +9,7 @@ def parse_option():
     parser = argparse.ArgumentParser('argument for training')
 
     # load pretrained model
-    parser.add_argument('--algorithm', type=str, default='ici', choices=['ptmap', 'ici', 'ilpc'], help = 'ptmap cannot be used when the complete backbone is used')
+    parser.add_argument('--algorithm', type=str, default='ptmap', choices=['ptmap', 'ici', 'ilpc'], help = 'ptmap cannot be used when the complete backbone is used')
     parser.add_argument('--model', type=str, default='resnet12', choices=['WideResNet28_10', 'resnet12'])
     parser.add_argument('--training_method', type=str, default='S2M2_R',   help='rotation/S2M2_R')
     parser.add_argument('--save_dir', type=str, default='.', help='rotation/S2M2_R')
@@ -18,7 +18,7 @@ def parse_option():
     parser.add_argument('--wrap_flag', type=int, default=0, metavar='N', help='make sure that you wrap the model only once')
 
     # dataset
-    parser.add_argument('--dataset', type=str, default='tieredImagenet', choices=['miniImagenet', 'tieredImagenet', 'cifar', 'CUB'])
+    parser.add_argument('--dataset', type=str, default='CUB', choices=['miniImagenet', 'tieredImagenet', 'cifar', 'CUB'])
     parser.add_argument('--transform', type=str, default='A', choices=transforms_list)
     parser.add_argument('--which_dataset', type=str, default='images', choices=['images', 'pkl'])
 

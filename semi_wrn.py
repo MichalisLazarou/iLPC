@@ -100,7 +100,7 @@ class GaussianModel(Model):
         
         p_xj = torch.zeros_like(dist)
         r = torch.ones(n_runs, n_usamples)
-        c = torch.ones(n_runs, n_ways) * n_queries
+        c = torch.ones(n_runs, n_ways) * n_usamples/params.n_ways#n_queries
        
         p_xj_test, _ = self.compute_optimal_transport(dist[:, n_lsamples:], r, c, epsilon=1e-6)
         #print(p_xj_test.shape)
