@@ -5,7 +5,8 @@ This repo covers the implementation of the following papers:
 **"Iterative label cleaning for transductive and semi-supervised few-shot learning (ICCV 2021)"** [Pre-print](https://arxiv.org/abs/2012.07962), [Paper](https://openaccess.thecvf.com/content/ICCV2021/html/Lazarou_Iterative_Label_Cleaning_for_Transductive_and_Semi-Supervised_Few-Shot_Learning_ICCV_2021_paper.html)
 
 and
-****"Exploiting unlabeled data in few-shot learning with manifold similarity and label cleaning (Pattern Recognition 2024)"** [Paper](https://www.sciencedirect.com/science/article/pii/S0031320324010550)
+
+**"Exploiting unlabeled data in few-shot learning with manifold similarity and label cleaning (Pattern Recognition 2024)"** [Paper](https://www.sciencedirect.com/science/article/pii/S0031320324010550)
 <p align='center'>
   <img src='idea.png' width="800px">
 </p>
@@ -46,11 +47,13 @@ For resnet12 experiments we used the datasets as provided by [S2M2_fewshot](http
 
 **WRN-28-10:** download and extract checkpoints folder from here: [checkpoints](https://drive.google.com/drive/folders/1KfPzwMvVzybvp13IQW5ipHvSxBncTA-C)  
 example to run transductive 1-shot experiments: `python transductive_wrn.py --dataset miniImagenet --algorithm iLPC --alpha 0.8 --K 20 --n_shots 1`  
-**resnet12:** for miniImagenet download .pkl file from here [miniImagenet_pkl](https://drive.google.com/file/d/1fJAK5WZTjerW7EWHHQAR9pRJVNg1T1Y7/view) and extract it in a folder `./data_pkl`
+**resnet12:** for miniImagenet download .pkl file from here [miniImagenet_pkl](https://drive.google.com/file/d/1witdnLUvKcYLbYLE2t1hUFC2-WH4EiYK/view?usp=drive_link) and extract it in a folder `./data_pkl`. for CUB please download the correspodning bounding boxes from here [CUB bbox](https://drive.google.com/file/d/153xxB3v7kth3mj7unIqiH2zCc4BtxCB8/view?usp=drive_link) and update the path in `dataset_closer/dataset.py` in line 93.
 example to run transductive 1-shot experiments: `python transductive_resnet12.py --dataset miniImagenet --algorithm iLPC --alpha 0.8 --K 15 --n_shots 1 --which_dataset pkl`
 
 for the correct hyperparameters alpha and K for every experiment check table 11. 
 WRN-28-10 experiments support all 3 algorithms iLPC,PT-MAP and LR+ICI, resnet12 support only iLPC and LR+ICI
+
+## For the distractive semi-supervised learning experiments please run:
 
 ## Contacts
 For any questions, please contact:
