@@ -47,7 +47,7 @@ For resnet12 experiments we used the datasets as provided by [S2M2_fewshot](http
 
 **WRN-28-10:** download and extract checkpoints folder from here: [checkpoints](https://drive.google.com/drive/folders/1KfPzwMvVzybvp13IQW5ipHvSxBncTA-C)  
 example to run transductive 1-shot experiments: `python transductive_wrn.py --dataset miniImagenet --algorithm iLPC --alpha 0.8 --K 20 --n_shots 1`  
-**resnet12:** for miniImagenet download .pkl file from here [miniImagenet_pkl](https://drive.google.com/file/d/1witdnLUvKcYLbYLE2t1hUFC2-WH4EiYK/view?usp=drive_link) and extract it in a folder `./data_pkl`. 
+**resnet12:** for miniImagenet download .pkl file from here [miniImagenet_pkl](https://drive.google.com/file/d/1witdnLUvKcYLbYLE2t1hUFC2-WH4EiYK/view?usp=drive_link) and extract it in a folder `./data_pkl`.  
 for CUB please download the correspodning bounding boxes from here [CUB bbox](https://drive.google.com/file/d/153xxB3v7kth3mj7unIqiH2zCc4BtxCB8/view?usp=drive_link) and update the path in `dataset_closer/dataset.py` in line 93.
 example to run transductive 1-shot experiments: `python transductive_resnet12.py --dataset miniImagenet --algorithm iLPC --alpha 0.8 --K 15 --n_shots 1 --which_dataset pkl`
 
