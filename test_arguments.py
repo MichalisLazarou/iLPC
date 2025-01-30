@@ -9,7 +9,7 @@ def parse_option():
     parser = argparse.ArgumentParser('argument for training')
 
     # load pretrained model
-    parser.add_argument('--algorithm', type=str, default='ptmap', choices=['ptmap', 'ici', 'ilpc'], help = 'ptmap cannot be used when the complete backbone is used')
+    parser.add_argument('--algorithm', type=str, default='plcm', choices=['plcm', 'ici', 'ilpc', 'plcm'], help = 'ptmap cannot be used when the complete backbone is used, plcm is used only for the distractive settings')
     parser.add_argument('--model', type=str, default='resnet12', choices=['WideResNet28_10', 'resnet12'])
     parser.add_argument('--training_method', type=str, default='S2M2_R',   help='rotation/S2M2_R')
     parser.add_argument('--save_dir', type=str, default='.', help='rotation/S2M2_R')
@@ -49,6 +49,10 @@ def parse_option():
     parser.add_argument('--semi_inference_method', type=str, default='inductive', choices=['transductive', 'inductive'])
     parser.add_argument('--sinkhorn_iter', type=int, default=1, metavar='N', help='sinkhorn iteration in optimal transport')
     parser.add_argument('--use_pt', type=str, default='no_pt_transform', choices=['pt_transform', 'no_pt_transform'])
+    parser.add_argument('--distractor', type=bool, default=True, metavar='bool', help='Number of workers for dataloader')
+    parser.add_argument('--n_distractors', type=int, default=3, metavar='N', help='number of distractor classes')
+    parser.add_argument('--truncate', type=str, default='no', help='yes/no')
+
 
     opt = parser.parse_args()
 
