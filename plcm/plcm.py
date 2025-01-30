@@ -1,7 +1,7 @@
 import torch
 import scipy
 import numpy as np
-from semi_distractive_wrn import artificial_balancing
+from semi_distractive_wrn import truncate
 import torch.nn.functional as F
 from plcm.ssGMM import ss_GaussianMixture
 
@@ -237,9 +237,9 @@ def pseudoLossConfidenceMetric(args, ss_GMM_parameterGroup, min_lossGroup, max_l
             mix_X = np.concatenate([support_X, select_unalebl_X])
             mix_y = np.concatenate([support_y, select_unlabel_y])
         # print(mix_X.shape)
-        if args.AN == 'yes':
+        if args.truncate == 'yes':
             # print(mix_X.shape, mix_y.shape)
-            mix_X, mix_y, _ = artificial_balancing(mix_X, mix_y, mix_y)
+            mix_X, mix_y, _ = truncate(mix_X, mix_y, mix_y)
             # print(mix_X.shape, mix_y.shape)
         skc_lr.fit(mix_X, mix_y)
 
