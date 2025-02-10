@@ -58,9 +58,13 @@ WRN-28-10 experiments support all 3 algorithms iLPC,PT-MAP and LR+ICI, resnet12 
 
 Examples to run the results of our distractive semi-supervised few-shot learning adaptated method
 
-**WRN-28-10:** ```python semi_distractive_wrn.py --dataset miniImagenet --algorithm iLPC --alpha 0.8 --K 20 --n_shots 1 --distractive_version z```
+**WRN-28-10:** 
+```python semi_distractive_wrn.py --dataset miniImagenet --algorithm iLPC --alpha 0.8 --K 20 --n_shots 1 --distractive_version z
+```
 
-**resnet12:** ```python semi_distractive_res.py --dataset miniImagenet --algorithm iLPC --alpha 0.8 --K 15 --n_shots 1 --distractive_version z```
+**resnet12:** 
+```python semi_distractive_res.py --dataset miniImagenet --algorithm iLPC --alpha 0.8 --K 15 --n_shots 1 --distractive_version z
+```
 
 ## Contacts
 For any questions, please contact:
