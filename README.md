@@ -54,12 +54,17 @@ example to run transductive 1-shot experiments: `python transductive_resnet12.py
 for the correct hyperparameters alpha and K for every experiment check table 11. 
 WRN-28-10 experiments support all 3 algorithms iLPC,PT-MAP and LR+ICI, resnet12 support only iLPC and LR+ICI
 
-## For the distractive semi-supervised learning experiments please run:
+## Distractive semi-supervised few-shot learning:
+
+Examples to run the results of our distractive semi-supervised few-shot learning adaptated method
+
+**WRN-28-10:** `python semi_distractive_wrn.py --dataset miniImagenet --algorithm iLPC --alpha 0.8 --K 20 --n_shots 1 --distractive_version z`
+**resnet12:** `python semi_distractive_res.py --dataset miniImagenet --algorithm iLPC --alpha 0.8 --K 15 --n_shots 1 --distractive_version z`
 
 ## Contacts
 For any questions, please contact:
 
-Michalis Lazarou (ml6414@ic.ac.uk)  
+Michalis Lazarou (michalislazarou93@gmail.com)  
 Tania Stathaki (t.stathaki@imperial.ac.uk)  
 Yannis Avrithis (yannis@avrithis.net)
 
